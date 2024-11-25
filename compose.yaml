@@ -1,6 +1,5 @@
+---
 # This is a production version of the Bigcapital docker-compose.yml file.
-
-version: '3.3'
 
 services:
   proxy:
@@ -14,14 +13,14 @@ services:
     tty: true
     volumes:
       - ./docker/envoy/envoy.yaml:/etc/envoy/envoy.yaml
-    restart: on-failure
+    restart: unless-stopped
     networks:
       - bigcapital_network
 
   webapp:
     container_name: bigcapital-webapp
     image: bigcapitalhq/webapp:latest
-    restart: on-failure
+    restart: unless-stopped
     networks:
       - bigcapital_network
 
@@ -38,7 +37,7 @@ services:
       - mysql
       - mongo
       - redis
-    restart: on-failure
+    restart: unless-stopped
     networks:
       - bigcapital_network
     environment:
@@ -144,7 +143,7 @@ services:
 
   mysql:
     container_name: bigcapital-mysql
-    restart: on-failure
+    restart: unless-stopped
     build:
       context: ./docker/mariadb
     environment:
@@ -161,7 +160,7 @@ services:
 
   mongo:
     container_name: bigcapital-mongo
-    restart: on-failure
+    restart: unless-stopped
     build: ./docker/mongo
     expose:
       - '27017'
@@ -172,7 +171,7 @@ services:
 
   redis:
     container_name: bigcapital-redis
-    restart: on-failure
+    restart: unless-stopped
     build:
       context: ./docker/redis
     expose:
